@@ -1,0 +1,188 @@
+.headings
+{
+    width: 100%;
+    background-color: cadetblue;
+    height: 50vh;
+    margin-top: 9vh;
+}
+
+.headings img
+{
+    float: left;
+    height: 40vh;
+    margin: 5vh 2%;
+    width: 20%;
+    border-radius: 50%;
+}
+
+.headings h1
+{
+    display: block;
+    float: left;
+    color: white;
+    line-height: 40vh;
+    margin-left: 35%;
+    font-size: 60px;
+}
+
+.headings h1 span
+{
+    color: rgba(255, 255, 0, 0.8);
+    margin-left: 10px;
+}
+
+.headings h1 a i
+{
+    color: black;
+    font-size: 35px;
+}
+
+.headings .pop
+{
+    visibility: hidden;
+    top: 55%;
+    right: 6%;
+    position: relative;
+    text-align: center;
+    color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 1% 1%;
+    line-height: 7%;
+    background-color: rgba(0, 0, 0, 0.6);
+    float: right;
+    width: 10%;
+    height: 7%;
+    display: block;
+}
+
+.headings .social
+{
+    margin-right: 20%;
+    margin-top: -15vh;
+    float: right;
+    height: 8vh;
+    width: 14%;
+}
+
+.headings .social a
+{
+    float: left;
+    margin-left: 2%;
+    display: block;
+    color: white;
+    background-color: yellow;
+    width: 29.33%;
+    height: 100%;
+    text-align: center;
+    line-height: 100%;
+    border-radius: 50%;
+}
+
+.headings .social a:nth-child(1)
+{
+    background-color: #385898;;
+}
+
+.headings .social a:nth-child(1):hover
+{
+    background-color: #38589899;
+}
+
+.headings .social a:nth-child(2)
+{
+    background-color: #1DA1F2;
+}
+
+.headings .social a:nth-child(2):hover
+{
+    background-color: #1da1f273;
+}
+
+.headings .social a:nth-child(3)
+{
+    background-color: #2867B2;
+}
+
+.headings .social a:nth-child(3):hover
+{
+    background-color: #2867b299;
+}
+
+.headings .social a i
+{
+    font-size: 32px;
+    line-height: 8vh;
+}
+
+.profile_container
+{
+    margin-bottom: 15vh;
+}
+
+.profile_container h2
+{
+    padding: 2%;
+    text-align: right;
+    color: #473185;
+    margin-right: 3%;
+    text-transform: uppercase;
+}
+
+.profile_container .line
+{
+    margin: 1%;
+    margin-bottom: 3%;
+    height: 5px;
+    background-color: red;
+}
+
+.profile_container .profile_content
+{
+    width: 100%;
+    height: 85vh;
+    margin-bottom: 3%;
+}
+
+.profile_container .profile_content .left
+{
+    float: left;
+    padding: 0 0 0 10%;
+    width: 40%;
+}
+
+.profile_container .profile_content .left h4
+{
+    font-variant: small-caps;
+}
+
+.profile_container .profile_content .left h5
+{
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    background-color: rgba(221, 207, 207, 0.836);
+    border: 1px solid black;
+    padding-left: 2%;
+}
+
+.mapouter
+{
+    float: left;
+    position: relative;
+    text-align: right;
+    margin-top: 10vh;
+    height: 500px;
+    width: 60%; 
+}
+        
+.gmap_canvas
+{
+    border: 2px dotted black;
+    margin-left: 25%;
+    overflow:hidden;
+    background:none!important;
+    height:500px;
+    width:600px;
+}

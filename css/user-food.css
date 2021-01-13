@@ -1,0 +1,12 @@
+body .row .col-lg-10-col-xl-8-offset-lg-1-offset-xl-2 .text figure img
+{
+    margin: 5%;
+    width: 90%;
+    height: 80vh;
+}
+
+body .row .col-lg-10-col-xl-8-offset-lg-1-offset-xl-2 p
+{
+    text-align: center;
+    color: blue;
+}

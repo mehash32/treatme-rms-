@@ -1,0 +1,156 @@
+.box
+{
+    width: auto;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 25px;
+}
+
+.box a
+{
+    text-decoration: none;
+}
+
+.slide-img
+{
+    height: 450px;
+    position: relative;
+}
+
+.slide-img img
+{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+.detail-box
+{
+    font-family: Calibri;
+    display: flex;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.type
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.type .name
+{
+    font-size: 28px;
+    color: #222222;
+    margin: 5px 0px;
+    padding-right: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.type span
+{
+    color: rgba(26, 26, 26, 0.7);
+    font-size: 18px;
+}
+
+.type span:hover
+{
+    color: #4582ec;
+}
+
+.price
+{
+    color: #ff7720;
+    font-family: Poppins;
+    font-size: 1.8rem;
+    font-weight: 1200px;
+    letter-spacing: 0.5px;
+}
+
+.overlay
+{
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(92, 95, 236, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-btn, .wish-btn
+{
+    display: flex;
+    color: #252525;
+    background-color: #ffffff;
+    font-family: Calibri;
+    height: 40px;
+    width: 160px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-btn
+{
+    margin-right: 15px;
+}
+
+.buy-btn:hover
+{
+    color: #ffffff;
+    background-color: #f15fa3;
+    transition: all 0.3s ease;
+}
+
+.wish-btn:hover
+{
+    color: #ffffff;
+    background-color: #683ad3;
+    transition: all 0.3s ease;
+}
+
+.overlay
+{
+    visibility: hidden;
+}
+
+.slide-img:hover .overlay
+{
+    visibility: visible;
+    animation: fade 0.5s;
+}
+
+@keyframes fade
+{
+    0%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
+}
+
+.slider
+{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,47 @@
+#page-wrap {
+  width: 500px;
+  margin: 100px auto;
+}
+
+.numbers-row
+{
+  margin-top: 30px;
+  margin-left: 30px;
+}
+
+.numbers-row label {
+  font-weight: 100;
+  font-size: 20px;
+  font-family: fantasy;
+  display: block;
+  float: left;
+  text-align: left;
+  margin-left: 10px;
+  padding: 5px 20px 0 0;
+  width: 250px;
+}
+
+input[type=number] {
+  float: left;
+  width: 50px;
+  font: bold 20px Helvetica, sans-serif;
+  padding: 0 0 0 0;
+  text-align: center;
+  border: 3px solid black;
+  border-radius: 5px;
+}
+
+.button {
+  margin: 0 0 0 10px;
+  text-indent: -9999px;
+  cursor: pointer;
+  width: 29px;
+  height: 29px;
+  float: left;
+  text-align: center;
+  background: url("/static/img/buttons.png") no-repeat;
+}
+
+.dec {
+  background-position: 0 -29px;
+}

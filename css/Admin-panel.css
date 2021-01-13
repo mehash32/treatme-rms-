@@ -1,0 +1,208 @@
+body
+{
+    background-color: #343a40;
+    height: 150vh;
+}
+
+header
+{
+    font-size: 40px;
+    font-variant: small-caps;
+    margin-top: 66px;
+    padding: 10px 10px 10px 40px;
+    background-color: #222;
+    color: #fff;
+}
+
+table
+{
+    text-align: center;
+    margin-bottom: 100px !important;
+    border: rebeccapurple 2px dashed;
+    background: #ffffff;
+}
+
+table header
+{
+    font-variant: small-caps;
+}
+
+table h1
+{
+    font-size: 50px;
+}
+
+table h2
+{
+    color: royalblue;
+}
+
+.btn-dark
+{
+    color: #ffffff !important;
+    background-color: #343a40;
+}
+
+.btn-dark:hover
+{
+    color: #ffffff !important;
+    background-color: #6c757d !important;
+}
+
+.PopupCheckBox
+{
+    visibility: hidden;
+}
+
+.PopupCheckBox:checked ~ .PopupBox
+{
+    visibility: visible;
+    opacity: 1;
+}
+
+.PopupBox
+{
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 800px;
+    text-align: left;
+    background-color: seashell;
+    border-radius: 3px;
+    transition: 0.3s ease-in;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+}
+
+.PopupBox .images
+{
+    height: 350px;
+    width: 80%;
+    margin: 2% 10%;
+}
+
+.PopupBox .images .cover
+{
+    border: 1px solid royalblue;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.PopupBox .images .logo
+{
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid royalblue;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
+
+.PopupBox .content
+{
+    padding: 0% 10%;
+    margin-top: 12%;
+}
+
+.PopupBox .top h3
+{
+    color: slateblue;
+}
+
+.PopupBox .top .foodtypes
+{
+    color: #888;
+}
+
+.PopupBox .desc p
+{
+    text-indent: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.PopupBox .line
+{
+    background-color: red;
+    height: 3px;
+    margin: 2% 0;
+}
+
+.PopupCheckBox2
+{
+    position: absolute;
+    visibility: hidden;
+}
+
+.PopupCheckBox2:checked ~ .PopupBox2
+{
+    visibility: visible;
+    opacity: 1;
+}
+
+.PopupBox2
+{
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 500px;
+    text-align: center;
+    background-color: seashell;
+    border-radius: 10px;
+    transition: 0.3s ease-in;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+}
+
+.PopupBox2 .top
+{
+    background-color: #d9534f;
+    color: white;
+    font-variant: small-caps;
+    height: 80px;
+    padding: 15px;
+}
+
+.PopupBox2 .top2
+{
+    background-color: #008080;
+    color: white;
+    font-variant: small-caps;
+    height: 80px;
+    padding: 15px;
+}
+
+.PopupBox2 .top h1, .PopupBox2 .top2 h1
+{
+    margin: 0;
+}
+
+.PopupBox2 .actions
+{
+    padding-top: 15px;
+}
+
+.PopupBox2 .actions span
+{
+    color: red;
+}
+
+.PopupBox2 .line
+{
+    height: 3px;
+    background-color: teal;
+}
+
+.PopupBox2 .btn-part
+{
+    padding: 10px;
+}
+

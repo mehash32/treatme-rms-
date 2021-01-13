@@ -1,0 +1,64 @@
+.alert h1
+{
+    text-align: center;
+}
+
+.tab
+{
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+    
+.tab button
+{
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+    
+.tab button:hover
+{
+    background-color: #ddd;
+}
+    
+.tab button.active
+{
+    background-color: #ccc;
+}
+    
+.tabcontent
+{
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.tab .tablinks
+{
+    width: 33.33%;
+}
+
+.tab .tablinks a
+{
+    text-decoration: none;
+    font-variant: small-caps;
+}
+
+.steps
+{
+    margin-left: 50px;
+}
+
+.steps h2
+{
+    font-variant: small-caps;
+    color: #ff7720;
+    font-size: 40px;
+}

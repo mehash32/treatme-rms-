@@ -1,0 +1,118 @@
+.itemcontainer
+{
+    margin-top: 70px;
+    min-height: auto;
+}
+
+.image-part
+{
+    width: 45%;
+    float: left;
+}
+
+.image-part img
+{
+    width: 92%;
+    height: 90vh;
+    margin: 4%;
+}
+
+.item-detail
+{
+    width: 53%;
+    float: left;
+    margin-right: 2%;
+}
+
+.item-detail .detail-header
+{
+    height: 28vh;
+    border-bottom: 2px gray dotted;
+    padding-left: 2%;
+    text-align: left;
+}
+
+.item-detail .detail-header .tag
+{
+    height: 70px;
+}
+
+.item-detail .detail-header p
+{
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 25px;
+    padding: 1%;
+    color: seashell;
+}
+
+.item-detail .detail-header .trend
+{
+    background-color: #4582ec;
+}
+
+.item-detail .detail-header .stock
+{
+    background-color: #d9534f;
+}
+
+.item-detail .detail-header h1
+{
+    margin-top: -10px;
+    text-transform: capitalize;
+    font-size: 45px;
+    font-family: fantasy;
+    width: auto;
+}
+
+.item-detail .detail-header span
+{
+    margin-top: 3vh;
+    margin-left: 50px;
+    color: #ff7720;
+    font-size: 35px;
+}
+
+.item-detail .detail-header h5
+{
+    text-align: left;
+    margin-top: 23px;
+}
+
+.item-detail .description
+{
+    min-height: 60vh;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+    text-indent: 50px;
+}
+
+.item-detail .description p
+{
+    padding: 5%;
+}
+
+.item-detail .button-part .btn
+{
+    width: 28%;
+}
+
+.item-detail .button-part .btn-success
+{
+    margin-left: 14%;
+    margin-right: 7%;
+}
+
+.item-detail .button-part .btn-primary
+{
+    margin-left: 7%;
+    margin-right: 14%;
+}
+
+.form
+{
+    background-color: #5bc0de;
+    box-shadow: 5px 5px #888;
+    padding: 10px 0;
+}

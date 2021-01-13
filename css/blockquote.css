@@ -1,0 +1,45 @@
+body .blockquote
+{
+    background-color: #110314ef;
+    color: #ffffff;
+}
+
+/* body .top h1
+{
+    margin-top: 3%;
+    font-family: Lora;
+    background: -webkit-linear-gradient(red 49%, blue 50%);
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: transparent;
+} */
+
+body .top h5
+{
+    color: orangered;
+}
+
+body .top h6
+{
+    color: red;
+}
+
+body .top h4
+{
+    color: darkturquoise;
+}
+
+body .top strong
+{
+    color: wheat;
+}
+
+body .top p
+{
+    color: darkgray;
+}
+
+body .blockquote .blockquote-footer
+{
+    background-color: #deb887;
+    color: #00008b;
+}

@@ -1,0 +1,49 @@
+.mt-20 {
+    margin-top: 40px;
+}
+
+.rate-container
+{
+    background-color: #333;
+    margin: 10px 0 30px 0;
+    padding-bottom: 50px;
+    box-shadow: 5px 5px #888;
+}
+
+.rate-container .over-view
+{
+    padding-top: 30px;
+    color: white;
+    font-variant: small-caps;
+}
+
+.progress {
+    height: 31px;
+    width: 550px;
+    margin-bottom: 30px;
+    margin-left: 50px;
+}
+
+.progress .skill {
+    font: normal 12px "Open Sans Web";
+    line-height: 32px;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.progress .skill .val {
+    float: left;
+    font-style: normal;
+    margin: 0 20px 0 0;
+}
+
+.progress-bar {
+    text-align: left;
+    transition-duration: 3s;
+}
+
+.bsp_big-image {
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    margin-top: 0px
+}
