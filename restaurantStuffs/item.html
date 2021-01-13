@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .del_btn
+        {
+            position: relative;
+            bottom: 15px;
+            left: 60px;
+            font-size: 16px;
+            display: block;
+            width: 68.13px;
+            height: 36px;
+            line-height: 33px;
+            color: white;
+            background: #d9534f;
+            border: 1px solid #d9534f;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .content .wait
+        {
+            text-align: center;
+            font-size: 40px;
+            margin-top: 200px;
+            font-variant: small-caps;
+            background: -webkit-linear-gradient(purple 50%, blue 50%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{rest.Restaurant_name}}&ensp;|&ensp;Items</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/batch.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/integer_input_fix.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/myitems.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/side-nav.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/static_popup.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header" style="margin-left: -150px;">
+                <a class="navbar-brand" href="{% url 'res_profile' %}">
+                    <img src="{{rest.Logo.url}}" id="logo">
+                    <strong style="font-size: 25px; color:teal">{{rest.Restaurant_name}}</strong>
+                </a>
+                
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-left" style="margin-left: 280px;">                    
+                    <li class="last">
+                        {% if user.is_authenticated %}
+                            <span style="line-height: 60px; color:springgreen;font-weight:bold">Logged In as &nbsp;</span>
+                            <span class="btn btn-info navbar-btn navbar-right" data-toggle="dropdown" aria-expanded="false" href="#">
+                                {{user.username}}
+                            </span>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-info navbar-btn navbar-right">
+                                <i class="fa fa-unlock-alt"></i> Login
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <input type="checkbox" id="check">
+    <label for="check">
+        <i class="fa fa-bars" id="btn"></i>
+        <i class="fa fa-times" id="cancel"></i>
+    </label>
+
+    <div class="sidebar">
+        <header>
+            <img src="{% static 'img/logo.png' %}"> Treat Me
+        </header>
+
+        <ul>
+            <li><a href="{% url 'Homepage' %}"><i class="fa fa-qrcode"></i> Dashboard</a></li>
+            <li><a href="{% url 'user_staff_profile' %}"><i class="fa fa-user"></i> User Profile</a></li>
+            <li><a href="{% url 'res_profile' %}"><i>&#127860;</i> Restaurant overview</a></li>
+            
+            <li>
+                <a href="{% url 'cus_orders' %}">
+                    <i class="fa fa-cart-arrow-down"></i> Orders
+                    <span class="badge badge-info" style="padding: 7px;"> {{order_count}}</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="{% url 'myitems' %}">
+                    <i class="fa fa-clipboard"></i> My Items
+                    <span class="badge badge-info" style="padding: 7px;"> {{item_count}}</span>
+                </a>
+            </li>
+
+            <li><a href="{% url 'contact_us_staffview' %}"><i class="fa fa-envelope"></i> Contact Us</a></li>
+            <li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        {% if flag %}
+            <div class="content">
+                <h2>My items</h2>
+                
+                {% if av == False%}
+                    <p style="text-align: center; font-size: 22px; margin-top: 20px;">There are currently no items. Add Items to view.</p>    
+                {% else %}
+                    <table>
+                        <tr>
+                            <th class="first_col">serial</th>
+                            <th>Preview</th>
+                            <th>name</th>
+                            <th>description</th>
+                            <th>Price</th>
+                            <th>Availability</th>
+                            <th>Trending?</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+
+                        {% for item in items %}
+                        <tr>
+                            <td class="first_col"> {{item.id}} </td>
+                            <td> 
+                                <a href="{{item.Image.url}}" data-lightbox="Item" data-title="{{item.Item_name}}">
+                                    <img src = {{item.Image.url}}>
+                                </a>
+                            </td>
+                            <td><a href="{% url 'item_view' item.id %}" style="color: purple;">{{item.Item_name}}</a></td>
+                            <td> {{item.Description}} </td>
+                            <td> {{item.Price}} </td>
+
+                            {% if item.Availability == 'Available' %}
+                            <td style="color: blue; font-weight: bolder;"> {{item.Availability}} </td>
+                            {% else %}
+                            <td style="color: red; font-weight: bolder;"> {{item.Availability}} </td>  
+                            {% endif %}
+
+                            {% if item.onTrend %}
+                                <td> yes </td>
+                            {% else %}
+                                <td> no </td>
+                            {% endif %}
+
+                            <td>
+                                <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm" role="button">
+                                    <i class="fa fa-pencil"></i>
+                                    <span>Edit</span>
+                                </a>
+
+                                
+                                {% if item.Availability == 'Out of Stock' %}
+                                    <input type="checkbox" class="popupCheckbox" id="popup_{{item.id}}">
+                                    <label for="popup_{{item.id}}" class="del_btn">
+                                        <i class="fa fa-trash"><span> Delete</span></i>
+                                    </label>
+
+                                {% else %}
+                                    <input type="checkbox" class="" id="popup_{{item.id}}" style="visibility: hidden">
+                                    <label for="popup_{{item.id}}" class="del_btn" style="background: grey;">
+                                        <i class="fa fa-trash"><span> Delete</span></i>
+                                    </label>
+                                {% endif %}
+                                
+                                <div class="popup-content">
+                                    <div class="pop-header">
+                                        <h2>Confirm deletion?</h2>
+                                        <label for="popup_{{item.id}}" class="fa fa-times"></label>
+                                    </div>
+                                    <label for="popup_{{item.id}}" class="fa fa-exclamation"></label>
+                                    <p>Once deleted, all data related to it can't be restored again.<br>Proceed to delete?</p>
+                                    <div class="line"></div>
+                                    <a href="{% url 'delete_item' item.id %}" class="btn btn-danger btn-sm" role="button">
+                                        <i class="fa fa-trash"></i>
+                                        <span>Delete</span>
+                                    </a>
+                                    <label for="popup_{{item.id}}" class="close-btn">Cancel</label>
+                                </div>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+                    
+                <div class="add">
+                    <a href="{% url 'add_item' %}" class="btn btn-primary btn-sm" role="button">
+                        <i class="fa fa-plus-circle"></i>
+                        <span>Add item</span>
+                    </a>
+                </div>
+            </div>
+
+            {% if av %}
+                <ul class="pagination" style="margin-left: 47%;">
+                    {% for pg in paginator.page_range %}
+                        <li class="page-item
+                            {% if pg == page_number %}
+                                active
+                            {% endif %}">
+                            <a class="page-link" href="?page={{pg}}">{{pg}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}    
+            
+        {% else %}
+            <div class="content">
+                <p class="wait">You can add item once your restaurant is verified. </p>
+            </div>
+            <h3></h3>
+        {% endif %}
+
+        <div class="emsp" style="height: 15vh;"></div>
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 footer-navigation">
+                        <h3><a href="#">TREAT Me</a></h3>
+                        <p class="links"><a href="#">Resturants</a><strong> · </strong><a href="#">Services</a><strong> · </strong><a href="#">Order </a><strong> </strong></p>
+                        <p class="company-name">TREAT Me @2020</p>
+                    </div>
+                    <div class="col-md-4 col-sm-6 footer-contacts">
+                        <div><span class="fa fa-map-marker footer-contacts-icon"> </span>
+                            <p><span class="new-line-span">Gollamari Khulna, Bangladesh</span></p>
+                        </div>
+                        <div><i class="fa fa-phone footer-contacts-icon"></i>
+                            <p class="footer-center-info email text-left"> 123456789</p>
+                        </div>
+                        <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                            <p> <a href="#" target="_blank">support@company.com</a></p>
+                        </div>
+                        <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                            <p> <a href="#" target="_blank">AtoZ@gmail.com</a></p>
+                        </div>
+                        
+                    </div>
+                    <div class="clearfix visible-sm-block"></div>
+                    <div class="col-md-4 footer-about">
+                        <h4>About the company</h4>
+                        <p> Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet. </p>
+                        <div class="social-links social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-github"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

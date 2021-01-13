@@ -1,0 +1,426 @@
+{% load static %}
+{% static "img" as baseUrl %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treat Me&emsp;|&emsp;Search Results</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+
+    <style>
+        body .top
+        {
+            background: url("/static/img/sea_side.jpg") no-repeat;
+            background-size: cover;
+        }
+
+        .searchHeader
+        {
+            display: block;
+            margin: 0 30%;
+            padding: 1% 0;
+            width: 40%;
+            color: white;
+            background-color: black;
+            font-weight: bolder;
+            text-align: center;
+            border-radius: 3px;
+        }
+
+        .menu a:hover .menu-content h4
+        {
+            color: red;
+            transition: 0.6s ease;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rancho&effect=fire">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/Fonts/BluuNext-Bold.otf' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Article-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Contact-Form-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/integer_input_fix.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Cart_popup.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/blockquote.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/btn_style.css' %}">
+    
+    <style>
+        .trend
+        {
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 25px;
+            padding: 2%;
+            color: seashell;
+            background-color: #4582ec;
+            animation-name: anim;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes anim
+        {
+            0% {
+                background-color:  #4582ec;
+            }
+
+            50% {
+                background-color: #d9534f;
+            }
+
+            100%
+            {
+                background-color: #4582ec;
+            }
+        }
+
+        .filter
+        {
+            margin-top: 100px;
+            margin-bottom: 40px;
+            padding-left: 30px;
+            float: left;
+            width: 100%;
+            line-height: 40px;
+            text-align: left;
+        }
+
+        .filter input
+        {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    {% for message in messages %}
+        {% if 'violation' in message.tags %}
+            <div class="msg" id="msg-long" style="margin-top: 50px; position: sticky; height: 96px">
+                <div class="alert alert-danger">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% else %}
+            <div class="msg" id="msg" style="margin-top: 50px; position: sticky; height: 96px">
+                <div class="alert alert-success">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="margin-left: 50px;">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.png' %}" id="logo">
+                <strong>TREAT</strong>&nbsp;Me
+            </a>
+
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li role="presentation">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a>
+                </li>
+                
+                <li class="active" role="presentation">
+                    <a href="{% url 'restaurant' %}">
+                        &#127860; Resturants
+                    </a>
+                </li>
+                
+                <li role="presentation">
+                    <a href="{% url 'contact_us_userview' %}"><i class="fa fa-id-card"></i> Contact Us</a>
+                </li>
+
+                <li role="presentation">
+                    <a href="{% url 'order_cart' %}">
+                        <i class="fa fa-shopping-cart"></i>&ensp; My Cart
+                        <span class="badge">
+                            {% if not request.session.items_total %}
+                                0
+                            {% else %}
+                                {{request.session.items_total}}
+                            {% endif %}
+                        </span>
+                    </a>
+                </li>
+
+                <li class="last">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-info navbar-btn navbar-right" data-toggle="dropdown" aria-expanded="false" href="#">
+                            {{user.username}}&nbsp; <i class="fa fa-chevron-circle-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation">
+                                <a href="{% url 'user_profile' %}">
+                                    <i class="fa fa-user"></i>&ensp; My profile
+                                </a>
+                            </li>
+
+                            <!-- <li role="presentation">
+                                <a href="{% url 'order_cart' %}">
+                                    <i class="fa fa-shopping-cart"></i>&ensp; My Cart
+                                    <span class="badge">
+                                        {% if not request.session.items_total %}
+                                            0
+                                        {% else %}
+                                            {{request.session.items_total}}
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li> -->
+
+                            <li role="presentation">
+                                <a href="{% url 'order_list' %}">
+                                    <i class="fa fa-cart-arrow-down"></i>&ensp; My Orders
+                                </a>
+                            </li>
+
+                            <li role="presentation">
+                                <a href="{% url 'wishlist' %}">
+                                    <i class="fa fa-heart"></i>&ensp; My wishlist
+                                </a>
+                            </li>
+                            
+                            <!-- <li role="presentation">
+                                <a href="#">
+                                    <i class="fa fa-credit-card"></i>&ensp;vouchers
+                                </a>
+                            </li> -->
+                            
+                            <li role="presentation">
+                                <a href="{% url 'logout' %}">
+                                    <i class="fa fa-lock"></i>&ensp; Logout
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-info navbar-btn navbar-right">
+                            <i class="fa fa-unlock-alt"></i> Login
+                        </a>
+                    {% endif %}
+                </li>
+
+                <li>
+                    <form class="navbar-form navbar-left" role="search" method="GET" action="/search_results" style="padding-left: 300px;">
+                        <div class="form-group">
+                            <i class="fa fa-search"></i>
+                            <input type="text" style="width: 215px;" class="form-control" placeholder="Search food or restaurant" name="query" id="query" style="width: auto; border-color: yellowgreen;">
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="filter">
+        <h3>Search by price range</h3>
+        <form method="GET" action="{% url 'search_price_range' %}">
+            Minimum price<input type="number" min="0" name="min"><br>
+            Maximum price<input type="number" min="0" name="max"><br>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    {% if filter %}
+        <div class="header" style="margin-top: 10px;">
+            <h1>Search Results : <span style="color: #fff; background-color: #343a40; padding: 2px 8px; border-radius:10px">{{f_count}}</span></h1><br>
+        </div>
+    {% else %}
+        <div class="header" style="margin-top: 10px;">
+            <h1>Search Results :</h1><br>
+        </div>
+    {% endif %}
+   
+    {% if mav == False and rav == False %}
+        <h4>No Results Found</h4>        
+    {% endif %}
+
+    {% if av == False %}
+        <h4 style="color:tomato">No Results Found</h4>        
+    {% endif %}
+            
+    {% if rav %}
+        <h3 class="searchHeader">Restaurants ( {{r_count}} Result(s) Found)</h3>
+    {% endif %}  
+    
+    <div class="menu" style="display: flex; margin-top: 50px;">
+        {% for rest in rest_rslts %}
+        <a href="{% url 'restaurant_menu' rest.id %}" class="single-menu" style="text-decoration: none; color: black">
+            <img src="{{rest.Cover_Photo.url}}" alt="">
+            <div class="menu-content">
+                <h4>{{rest.Restaurant_name}}</h4>
+                <p>{{rest.Bio}}</p>
+
+                {% if rest.ratings is not False %}
+                    <i class="fa fa-star"></i>
+                    <span style="color: rgb(111, 0, 255); font-size:12px">{{rest.ratings}}</span>
+                    <i class='fa fa-comment' style="margin-left: 20px;"></i>
+                    <span style="color: rgb(111, 0, 255); font-size:12px">{{rest.review_count}}</span>
+                {% else %}
+                    <i class='fa fa-comment'></i>
+                    <span style="color: rgb(111, 0, 255); font-size:12px">{{rest.review_count}}</span>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    
+    {% if mav %}
+        <h3 class="searchHeader">Items ( {{m_count}}  Result(s) Found)</h3>
+    {% endif %}
+
+    <div class="menu" style="display: flex; margin-top: 50px;">
+        {% for menuitem in food_rslts %}
+        <div class="single-menu">
+            <a href="{{menuitem.Image.url}}" data-lightbox="item" data-title="{{menuitem.Item_name}}">
+                <img src="{{menuitem.Image.url}}" alt="">
+            </a>
+
+            <div class="menu-content">
+                {% if menuitem.onTrend %}
+                    <p class="trend">Trending</p>
+                {% endif %}
+                <h4><a href="{% url 'item_details' menuitem.id %}">{{menuitem.Item_name}}</a>
+                    &emsp;<span>৳{{menuitem.Price}}</span></h4>
+                <h5><a href="{% url 'restaurant_menu' menuitem.Restaurant_name.id %}"> {{menuitem.Restaurant_name.Restaurant_name}} </a></h5>
+                
+                {% if menuitem.get_average_ratings is not False %}
+                    <i class="fa fa-star"></i>
+                    <span style="color: rgb(111, 0, 255); font-size:12px">{{menuitem.get_average_ratings}}</span>
+                    <i class='fa fa-comment' style="margin-left: 20px;"></i>
+                    <span style="color: rgb(111, 0, 255); font-size:12px">{{menuitem.comment_count}}</span>
+                {% else %}
+                    <i class='fa fa-comment'></i>
+                    <span style="color: rgb(111, 0, 255); font-size:12px">{{menuitem.comment_count}}</span>
+                {% endif %}
+                 
+                <br><br><input type="checkbox" class="popupCheckbox" id="popup_{{menuitem.id}}">
+                
+                {% if user.is_authenticated %}
+                <label for="popup_{{menuitem.id}}" class="cart_btn">
+                    <div class="btn btn-success" style="width: 133.42px;">
+                        <i class="fa fa-shopping-cart"></i> Add to cart
+                    </div>
+                </label>
+
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-success" style="width: 133.42px;">
+                        <i class="fa fa-shopping-cart"></i> Add to cart
+                    </a>
+                {% endif %}
+
+                <div class="cart-content" style="text-align: center;">
+                    <div class="pop-header">
+                        <h2>Add item to cart</h2>
+                        <label for="popup_{{menuitem.id}}" class="fa fa-times"></label>
+                    </div>
+                    
+                    <form method="GET" action="{% url 'add_to_order_cart' menuitem.id %}">
+                        <div class="numbers-row">
+                            <label for="name">Select Quantity</label>
+                            <input type="number" name="qty" id="qty" value="1" min="1">
+                        </div>
+                    
+                        <br>
+                        <textarea name="comment" class="for-search" placeholder="Add any requirements, e.g, no mayo."></textarea>
+                        
+                        <div class="line"></div>
+                        <button type="submit" class="btn btn-danger btn-sm">Confirm</button>
+                        <label for="popup_{{menuitem.id}}" class="close-btn">Cancel</label>
+                    </form>
+                </div>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'add_to_wishlist' menuitem.id %}">
+                        <button class="btn btn-warning" style="margin-left: 35px;">
+                            <i class="fa fa-heart"></i> Add to wishlist
+                        </button>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}">
+                        <button class="btn btn-warning" style="margin-left: 35px;">
+                            <i class="fa fa-heart"></i> Add to wishlist
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 footer-navigation">
+                    <h3><a href="#">TREAT Me</a></h3>
+                    <p class="links"><a href="#">Resturants</a><strong> · </strong><a href="#">Services</a><strong> · </strong><a href="#">Order </a><strong> </strong></p>
+                    <p class="company-name">TREAT Me @2020</p>
+                </div>
+                <div class="col-md-4 col-sm-6 footer-contacts">
+                    <div><span class="fa fa-map-marker footer-contacts-icon"> </span>
+                        <p><span class="new-line-span">Gollamari Khulna, Bangladesh</span></p>
+                    </div>
+                    <div><i class="fa fa-phone footer-contacts-icon"></i>
+                        <p class="footer-center-info email text-left"> 123456789</p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">support@company.com</a></p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">AtoZ@gmail.com</a></p>
+                    </div>
+                    
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+                <div class="col-md-4 footer-about">
+                    <h4>About the company</h4>
+                    <p> Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet. </p>
+                    <div class="social-links social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-github"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/incrementing.js' %}"></script>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+    <script>
+        setTimeout(function(){
+            if ($('#msg').length > 0)
+            {
+                $('#msg').remove();
+            }
+        }, 2000)
+    </script>
+</body>
+
+</html>

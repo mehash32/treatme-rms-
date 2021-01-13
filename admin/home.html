@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treat Me&ensp;|&ensp;Admin</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Admin-panel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header" style="margin-left: -150px;">
+                <a class="navbar-brand" href="{% url 'validation' %}">
+                    <img src="{% static 'img/logo.png' %}" id="logo">
+                    <strong>TREAT</strong>&nbsp;Me
+                </a>
+                
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-left" style="margin-left: 50px;">    
+                    <li role="presentation">
+                        <a href="{% url 'logout' %}" class="btn btn-dark">
+                            <i class="fa fa-lock"></i>&ensp; Logout
+                        </a>
+                    </li>
+                                    
+                    <li class="last">
+                        {% if user.is_authenticated %}
+                            <span style="line-height: 60px; color:springgreen;font-weight:bold">Logged In as &nbsp;</span>
+                            <span class="btn btn-info navbar-btn navbar-right" data-toggle="dropdown" aria-expanded="false" href="#">
+                                {{user.username}}
+                            </span>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-info navbar-btn navbar-right">
+                                <i class="fa fa-unlock-alt"></i> Login
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        Admin Panel
+    </header>
+
+    <div class="col-sm-8 col-sm-offset-2 order-table" style="margin-top: 80px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="5">
+                        <h2>Pending Restaurants</h2>
+                    </td>
+                </tr>
+
+                <tr style="background-color: palegreen; font-weight:900">
+                    <td>Id.</td>
+                    <td>Name</td>
+                    <td>Location</td>
+                    <td>Contact</td>
+                    <td>
+                        View/Edit
+                    </td>
+                </tr>
+            </thead>
+
+            {% if not rest_invalid %}
+                <tr><td colspan="5"><h1 class="text text-warning">The list is empty.</h1></td></tr>
+            {% else %}
+                {% for rest in rest_invalid %}
+                    <tr>
+                        <td>{{rest.id}}</td>
+                        <td>{{rest.Restaurant_name}}</td>
+                        <td>{{rest.Location}}</td>
+                        <td>{{rest.Contact_number}}</td>
+                        
+                        <td>
+                            <input type="checkbox" id="{{rest.id}}" class="PopupCheckBox">
+                            <label for="{{rest.id}}" class="btn btn-primary">
+                                <i class="fa fa-eye"></i>
+                            </label>
+
+                            <div class="PopupBox">
+                                <div class="images">
+                                    <a href="{{rest.Cover_Photo.url}}" data-lightbox="{{rest.id}} cover" data-title="{{rest.Restaurant_name}} Cover">
+                                        <img class="cover" src="{{rest.Cover_Photo.url}}">
+                                    </a>
+                                    
+                                    <a href="{{rest.Cover_Photo.url}}" data-lightbox="{{rest.id}} logo" data-title="{{rest.Restaurant_name}} Logo">
+                                        <img class="logo" src="{{rest.Logo.url}}">
+                                    </a>
+                                </div>
+                                
+                                <div class="content">
+                                    <div class="top">
+                                        <h3>{{rest.Restaurant_name}}</h3>
+                                        <div class="foodtypes">{{rest.Food_type}}</div>
+                                        <div class="bio">{{rest.Bio}}</div>
+                                    </div>
+
+                                    <div class="line"></div>
+
+                                    <div class="desc">
+                                        {% if not rest.Description and not rest.Opens %}
+
+                                        {% elif not rest.Opens %}
+                                            <h5>Delivery Time : [Not set yet]</h5><br>
+                                            <p>{{rest.Description}}</p>
+                                            <div class="line"></div>
+                                        {% elif not rest.Description %}
+                                            <h5>Delivery Time : {{rest.Opens}}</h5><br>
+                                            <div class="line"></div>
+                                        {% else %}
+                                            <h5>Delivery Time : {{rest.Opens}}</h5><br>
+                                            <p>{{rest.Description}}</p>
+                                            <div class="line"></div>
+                                        {% endif %}
+                                    </div>
+
+                                    <label for="{{rest.id}}" class="btn btn-danger" style="margin-bottom: 10px;">Close</label>
+                                </div>
+                            </div>
+
+                            <input type="checkbox" id="confirm_{{rest.id}}" class="PopupCheckBox2">
+                            <label for="confirm_{{rest.id}}" class="btn btn-success">
+                                <i class="fa fa-check"></i>
+                            </label>
+
+                            <div class="PopupBox2">
+                                <div class="top2">
+                                    <h1>Confirm request?</h1>
+                                </div>
+
+                                <div class="actions">
+                                    <h4>Add restaurant to the system?</h4>
+                                    <p style="padding: 5px 15px;">People will be able to find this restaurant and it's items if confirmed.</p>
+                                    <div class="line"></div>
+                                </div>
+                                
+                                <div class="btn-part">
+                                    <a href="{% url 'action' rest.id %}" class="btn btn-danger">Confirm</a>
+                                    <label for="confirm_{{rest.id}}" class="btn btn-primary">Cancel</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="5">
+                        <h2>Active Restaurants</h2>
+                    </td>
+                </tr>
+
+                <tr style="background-color: palegreen; font-weight:900">
+                    <td>Id.</td>
+                    <td>Name</td>
+                    <td>Location</td>
+                    <td>Contact</td>
+                    <td>View/Action</td>
+                </tr>
+            </thead>
+
+            {% if not rest_valid %}
+                <tr><td colspan="5"><h1 class="text text-warning">The list is empty.</h1></td></tr>
+            {% else %}
+                {% for rest in rest_valid %}
+                    <tr>
+                        <td>{{rest.id}}</td>
+                        <td>{{rest.Restaurant_name}}</td>
+                        <td>{{rest.Location}}</td>
+                        <td>{{rest.Contact_number}}</td>
+                        
+                        <td>
+                            <input type="checkbox" id="view_{{rest.id}}" class="PopupCheckBox">
+                            <label for="view_{{rest.id}}" class="btn btn-primary">
+                                <i class="fa fa-eye"></i>
+                            </label>
+
+                            <div class="PopupBox">
+                                <div class="images">
+                                    <a href="{{rest.Cover_Photo.url}}" data-lightbox="{{rest.id}} cover" data-title="{{rest.Restaurant_name}} Cover">
+                                        <img class="cover" src="{{rest.Cover_Photo.url}}">
+                                    </a>
+                                    
+                                    <a href="{{rest.Cover_Photo.url}}" data-lightbox="{{rest.id}} logo" data-title="{{rest.Restaurant_name}} Logo">
+                                        <img class="logo" src="{{rest.Logo.url}}">
+                                    </a>
+                                </div>
+                                
+                                <div class="content">
+                                    <div class="top">
+                                        <h3>{{rest.Restaurant_name}}</h3>
+                                        <div class="foodtypes">{{rest.Food_type}}</div>
+                                        <div class="bio">{{rest.Bio}}</div>
+                                    </div>
+
+                                    <div class="line"></div>
+
+                                    <div class="desc">
+                                        {% if not rest.Description and not rest.Opens %}
+
+                                        {% elif not rest.Opens %}
+                                            <h5>Delivery Time : [Not set yet]</h5><br>
+                                            <p>{{rest.Description}}</p>
+                                            <div class="line"></div>
+                                        {% elif not rest.Description %}
+                                            <h5>Delivery Time : {{rest.Opens}}</h5><br>
+                                            <div class="line"></div>
+                                        {% else %}
+                                            <h5>Delivery Time : {{rest.Opens}}</h5><br>
+                                            <p>{{rest.Description}}</p>
+                                            <div class="line"></div>
+                                        {% endif %}
+                                    </div>
+
+                                    <label for="view_{{rest.id}}" class="btn btn-danger" style="margin-bottom: 10px;">Close</label>
+                                </div>
+                            </div>
+
+                            <input type="checkbox" id="action_{{rest.id}}" class="PopupCheckBox2">
+                            <label for="action_{{rest.id}}" class="btn btn-danger">
+                                <i class="fa fa-flag"></i>
+                            </label>
+
+                            <div class="PopupBox2">
+                                <div class="top">
+                                    <h1>Ban Restaurant</h1>
+                                </div>
+
+                                <div class="actions">
+                                    <h4>The restaurant is actively running.<br><span>Confirm Ban/remove?</span></h4>
+                                    <p style="padding: 5px 15px;">People won't see any items or updates from this restaurant while it's banned.</p>
+                                    <div class="line"></div>
+                                </div>
+                                
+                                <div class="btn-part">
+                                    <a href="{% url 'action' rest.id %}" class="btn btn-danger">Confirm</a>
+                                    <label for="action_{{rest.id}}" class="btn btn-primary">Cancel</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}&emsp;|&emsp;Profile</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Dark.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Registration-Form-with-Photo.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/untitled.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/popup.css' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="margin-left: 50px;">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.png' %}" id="logo">
+                <strong>TREAT</strong>&nbsp;Me
+            </a>
+
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li role="presentation">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a>
+                </li>
+                
+                <li class="active" role="presentation">
+                    <a href="{% url 'restaurant' %}">
+                        &#127860; Resturants
+                    </a>
+                </li>
+                
+                <li role="presentation">
+                    <a href="{% url 'contact_us_userview' %}"><i class="fa fa-id-card"></i> Contact Us</a>
+                </li>
+
+                <li role="presentation">
+                    <a href="{% url 'order_cart' %}">
+                        <i class="fa fa-shopping-cart"></i>&ensp; My Cart
+                        <span class="badge">
+                            {% if not request.session.items_total %}
+                                0
+                            {% else %}
+                                {{request.session.items_total}}
+                            {% endif %}
+                        </span>
+                    </a>
+                </li>
+
+                <li class="last">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-info navbar-btn navbar-right" data-toggle="dropdown" aria-expanded="false" href="#">
+                            {{user.username}}&nbsp; <i class="fa fa-chevron-circle-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation">
+                                <a href="{% url 'user_profile' %}">
+                                    <i class="fa fa-user"></i>&ensp; My profile
+                                </a>
+                            </li>
+
+                            <!-- <li role="presentation">
+                                <a href="{% url 'order_cart' %}">
+                                    <i class="fa fa-shopping-cart"></i>&ensp; My Cart
+                                    <span class="badge">
+                                        {% if not request.session.items_total %}
+                                            0
+                                        {% else %}
+                                            {{request.session.items_total}}
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li> -->
+
+                            <li role="presentation">
+                                <a href="{% url 'order_list' %}">
+                                    <i class="fa fa-cart-arrow-down"></i>&ensp; My Orders
+                                </a>
+                            </li>
+
+                            <li role="presentation">
+                                <a href="{% url 'wishlist' %}">
+                                    <i class="fa fa-heart"></i>&ensp; My wishlist
+                                </a>
+                            </li>
+                            
+                            <!-- <li role="presentation">
+                                <a href="#">
+                                    <i class="fa fa-credit-card"></i>&ensp;vouchers
+                                </a>
+                            </li> -->
+                            
+                            <li role="presentation">
+                                <a href="{% url 'logout' %}">
+                                    <i class="fa fa-lock"></i>&ensp; Logout
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-info navbar-btn navbar-right">
+                            <i class="fa fa-unlock-alt"></i> Login
+                        </a>
+                    {% endif %}
+                </li>
+
+                <li>
+                    <form class="navbar-form navbar-left" role="search" method="GET" action="/search_results" style="padding-left: 300px;">
+                        <div class="form-group">
+                            <i class="fa fa-search"></i>
+                            <input type="text" style="width: 215px;" class="form-control" placeholder="Search food or restaurant" name="query" id="query" style="width: auto; border-color: yellowgreen;">
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="headings">
+        <a href="{{ cur_user.Profile_picture.url }}" target="_blank">
+            <img src="{{ cur_user.Profile_picture.url }}">
+        </a>
+
+        <h1>
+            {{user.username}} <span> Profile</span>
+            <a href="{% url 'update_profile' %}"><i class="fa fa-pencil"></i></a><br>
+        </h1>
+
+        <div class="pop">
+            Edit Profile
+        </div>
+        
+        <div class="social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-linkedin"></i></a>
+        </div>
+    </div>
+
+    <div class="profile_container">
+        <h2>Profile Details</h2>
+        <div class="line"></div>
+        <div class="profile_content">
+            <div class="left">
+                <h4><i class="fa fa-user"></i> First name</h4>
+                <h5> {{user.first_name}} </h5><br>
+
+                <h4><i class="fa fa-user"></i> Last name</h4>
+                <h5> {{user.last_name}} </h5><br>
+                
+                <h4><i class="fa fa-phone"></i> Phone number</h4>
+                <h5> {{cur_user.Phone_number}} </h5><br>
+
+                <h4><i class="fa fa-envelope"></i> Email</h4>
+                <h5> {{user.email}} </h5><br>
+
+                <h4><i class="fa fa-compass"></i> Address</h4>
+                <h5 style="height: 100px;"> {{address.shipping.get_address}} </h5><br>
+            </div>
+
+            <div class="mapouter">
+                <div class="gmap_canvas">
+                    <iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=khulna%20university&t=&z=19&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    <a href="https://123movies-i.net">123movies</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 footer-navigation">
+                    <h3><a href="#">TREAT Me</a></h3>
+                    <p class="links"><a href="#">Resturants</a><strong> · </strong><a href="#">Services</a><strong> · </strong><a href="#">Order </a><strong> </strong></p>
+                    <p class="company-name">TREAT Me @2020</p>
+                </div>
+                <div class="col-md-4 col-sm-6 footer-contacts">
+                    <div><span class="fa fa-map-marker footer-contacts-icon"> </span>
+                        <p><span class="new-line-span">Gollamari Khulna, Bangladesh</span></p>
+                    </div>
+                    <div><i class="fa fa-phone footer-contacts-icon"></i>
+                        <p class="footer-center-info email text-left"> 123456789</p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">support@company.com</a></p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">AtoZ@gmail.com</a></p>
+                    </div>
+                    
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+                <div class="col-md-4 footer-about">
+                    <h4>About the company</h4>
+                    <p> Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet. </p>
+                    <div class="social-links social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-github"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+</body>
+
+</html>
