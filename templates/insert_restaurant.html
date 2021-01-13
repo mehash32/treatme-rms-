@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treat Me&emsp;|&emsp;Add Restaurant</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Dark.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Registration-Form-with-Photo.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Steps_tab.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/untitled.css' %}">
+</head>
+
+<body>
+    <div class="steps">
+        <h2>Registration</h2>
+        <p>Please complete the following steps.</p>
+
+        <div class="tab">
+            <a href="#s1">
+                <button class="tablinks" onclick="openCity(event, 'step1')">Step 1: Enter Your Information</button>
+            </a>
+
+            <a href="#s2">
+                <button class="tablinks" onclick="openCity(event, 'step2')">Step 2: Add Restaurant Information</button>
+            </a>
+
+            <a href="#s3">
+                <button class="tablinks" onclick="openCity(event, 'step3')">Step 3: Confirm</button>
+            </a>
+        </div>
+
+        <div id="step1" class="tabcontent"></div>
+        <div id="step2" class="tabcontent"></div>
+        <div id="step3" class="tabcontent"></div>
+    </div>
+
+    <script>
+        function openCity(evt, cityName)
+        {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+        
+            for (i = 0; i < tabcontent.length; i++)
+            {
+                tabcontent[i].style.display = "none";
+            }
+        
+            tablinks = document.getElementsByClassName("tablinks");
+        
+            for (i = 0; i < tablinks.length; i++)
+            {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+        
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+
+
+        }
+    </script>
+
+    <div class="register-photo">
+        <div class="form-container">
+            
+            <form method="POST" action="{% url 'staff_registration' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="alert alert-success">
+                    <h1 id="s1">Step 1 : Enter Your Information</h1>
+                </div>
+
+                <div class="emdiv" style="height: 100px;"></div>
+
+                <tr>
+                    <td>
+                        <input class="form-control" type="text" name="username" placeholder="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username"><br>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <input class="form-control" type="email" name="email" placeholder="email" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_email"><br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><label for="id_password1"></label></th>
+                    <td>
+                        <input class="form-control" type="password" name="password1" placeholder="password" autocomplete="new-password" required id="id_password1"><br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><label for="id_password2"></label></th>
+                    <td>
+                        <input class="form-control" type="password" name="password2" placeholder="password (retype)" autocomplete="new-password" required id="id_password2">
+                    </td>
+                </tr>
+                <br><br>
+
+                <div class="emdiv" style="height: 350px;"></div>
+
+                <div class="alert alert-success">
+                    <h1 id="s2">Step 2 : Add Restaurant Details</h1>
+                </div>
+
+                {% for field in r_form %}
+                <div class="form-group row" style="margin-left: 20px;">
+                    <label for="id_{{ field.name }}" class="col-2 col-form-label"> {{ field.label }} </label>
+                    <div class="col-10">
+                        {{ field }}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <button id="s3" class="btn btn-primary btn-block" type="submit">Confirm</button><br>
+            </form>
+        </div>
+    </div>
+
+    {% for message in messages %}
+    <div class="popup" id="msg">
+        <div class="header">
+            <h2>Notification</h2>
+            <!-- <label for="click" class="fas fa-times"></label> -->
+        </div>
+        <label for="click" class="fa fa-bell"></label>
+        <p>{{message}}</p>
+        <!-- <div class="line"></div>
+        <label for="click" class="close-btn">Close</label> -->
+    </div>
+    {% endfor %}
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+    <script>
+        setTimeout(function(){
+            if ($('#msg').length > 0)
+            {
+                $('#msg').remove();
+            }
+        }, 3000)
+    </script>
+</body>
+
+</html>

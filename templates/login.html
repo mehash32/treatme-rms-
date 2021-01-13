@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treat Me&ensp;|&ensp;Login</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+
+    <style>
+        body .login-clean
+        {
+            background:url("{% static 'img/children-flying-dragon-kite-4k-yz-2560x1600.jpg' %}") no-repeat;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Dark.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Registration-Form-with-Photo.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/untitled.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/popup.css' %}">
+</head>
+
+<body>
+    <div class="login-clean">
+        <form method="POST" method="{% url 'login' %}" autocomplete="off">
+            {% csrf_token %}
+            <h2 class="sr-only">Login Form</h2>
+            <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
+            
+            <div class="form-group">
+                <input class="form-control" type="text" name="username" placeholder="Email or username">
+            </div>
+
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" id="password">
+                <span class="eye"><i class="fa fa-eye" id="eye" aria-hidden="true" onclick="toggle()"></i></span>
+            </div>
+            
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">Log In</button>
+            </div>
+            
+            <a href="{% url 'password_reset' %}" target="_blank" class="forgot forgot-bar">Forgotten password?</a>
+            <p class="forgot" style="font-size:16px;margin-top:20px;">Not Registered?</p>
+
+            <a class="btn btn-primary btn-block" href="../registration" style="color: white; text-decoration: none;">Create new account</a>
+        </form>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 footer-navigation">
+                    <h3><a href="#">TREAT Me</a></h3>
+                    <p class="links"><a href="#">Resturants</a><strong> · </strong><a href="#">Services</a><strong> · </strong><a href="#">Order </a><strong> </strong></p>
+                    <p class="company-name">TREAT Me @2020</p>
+                </div>
+                <div class="col-md-4 col-sm-6 footer-contacts">
+                    <div><span class="fa fa-map-marker footer-contacts-icon"> </span>
+                        <p><span class="new-line-span">Gollamari Khulna, Bangladesh</span></p>
+                    </div>
+                    <div><i class="fa fa-phone footer-contacts-icon"></i>
+                        <p class="footer-center-info email text-left"> 123456789</p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">support@company.com</a></p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">AtoZ@gmail.com</a></p>
+                    </div>
+                    
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+                <div class="col-md-4 footer-about">
+                    <h4>About the company</h4>
+                    <p> Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet. </p>
+                    <div class="social-links social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-github"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% for message in messages %}
+    <div class="popup" id="msg">
+        <div class="header">
+            <h2>Notification</h2>
+            <!-- <label for="click" class="fas fa-times"></label> -->
+        </div>
+        <label for="click" class="fa fa-bell"></label>
+        <p>{{message}}</p>
+        <!-- <div class="line"></div>
+        <label for="click" class="close-btn">Close</label> -->
+    </div>
+    {% endfor %}
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+    <script>
+        setTimeout(function(){
+            if ($('#msg').length > 0)
+            {
+                $('#msg').remove();
+            }
+        }, 3000)
+    </script>
+
+    <script>
+        var state = false;
+
+        function toggle()
+        {
+            if (state)
+            {
+                document.getElementById('password').setAttribute('type', 'password');
+                document.getElementById('eye').style.color='#7A797E';
+                state = false;
+            }
+
+            else
+            {
+                document.getElementById('password').setAttribute('type', 'text');
+                document.getElementById('eye').style.color='#5887EF';
+                state = true;
+            }
+        }
+    </script>
+</body>
+
+</html>

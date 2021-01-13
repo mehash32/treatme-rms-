@@ -1,0 +1,795 @@
+{% load static %}
+{% static "img" as baseUrl %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% for rest in rests %}
+        <title>{{ rest.Restaurant_name }}</title>
+        <link rel="icon" href="{% static 'img/logo.png' %}">
+    {% endfor %}
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rancho&effect=fire">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Article-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/batch.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/blockquote.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/btn_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Cart_popup.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Contact-Form-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/integer_input_fix.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Steps_tab.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    
+    <style>
+        .rating-label
+        {
+            font-weight: bold;
+            padding-right: 20px;
+        }
+
+        .text-right
+        {
+            padding-left: 25px;
+        }
+
+        #textblock h3 a:hover
+        {
+            color: red;
+            transition: 0.6s ease;
+            text-decoration: none;
+        }
+
+        .fb-profile-block {
+            margin: auto;
+            position: relative;
+            width: 100%;
+        }
+            
+        .rest-name{
+            color: #4b4f56;
+        }
+
+        .fb-profile-block-thumb
+        {
+            display: block;
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .fb-profile-block-menu
+        {
+            border: 1px solid #d3d6db;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .profile-img a
+        {
+            bottom: 0px;
+            box-shadow: none;
+            display: block;
+            left: 42%;
+            padding:1px;
+            position: absolute;
+            height: 250px;
+            width: 250px;
+            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+            z-index:9;
+        }
+
+        .profile-img img
+        {
+            background-color: #fff;
+            border-radius: 30px;
+            border: 3px solid red;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+            height:248px;
+            padding: 5px;
+            width:248px;
+        }
+
+        .profile-name
+        {
+            bottom: 60px;
+            right: 200px;
+            position: absolute;  
+        }
+
+        .profile-name h2
+        {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 30px;
+            max-width: 275px;
+            position: relative;
+            text-transform: uppercase;  
+        }
+
+        .fb-profile-block-menu
+        {
+            height: 44px;
+            position: relative;
+            width:100%;
+            overflow:hidden;
+        }
+        
+        .block-menu
+        {
+            clear: right;
+            padding-left: 205px;
+        }
+
+        .block-menu ul
+        {
+            margin:0;
+            padding:0;
+        }
+
+        .block-menu ul li
+        {
+            display:inline-block;
+        }
+
+        .block-menu ul li a
+        {
+            border-right: 1px solid #e9eaed;
+            float: left;
+            font-size: 14px;
+            font-weight: bold;
+            height: 42px;
+            line-height: 3.0;
+            padding: 0 17px;
+            position: relative;
+            vertical-align: middle;
+            white-space: nowrap;
+            color:#4b4f56;
+            text-transform:capitalize;
+        }
+
+        .block-menu ul li:first-child a
+        {
+            border-left: 1px solid #e9eaed;
+        }
+
+        .tab button
+        {
+            transition: none;
+        }
+
+        .tab button.active
+        {
+            background: none;
+            color: #3578E5;
+            border-bottom: 4px #3578E5 solid;
+        }
+
+        .progress
+        {
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body> 
+    {% for message in messages %}
+        {% if 'violation' in message.tags %}
+            <div class="msg" id="msg-long" style="margin-top: 50px; position: sticky; height: 96px">
+                <div class="alert alert-danger">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% else %}
+            <div class="msg" id="msg" style="margin-top: 50px; position: sticky; height: 96px">
+                <div class="alert alert-success">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="margin-left: 50px;">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.png' %}" id="logo">
+                <strong>TREAT</strong>&nbsp;Me
+            </a>
+
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li role="presentation">
+                    <a href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a>
+                </li>
+                
+                <li class="active" role="presentation">
+                    <a href="{% url 'restaurant' %}">
+                        &#127860; Resturants
+                    </a>
+                </li>
+                
+                <li role="presentation">
+                    <a href="{% url 'contact_us_userview' %}"><i class="fa fa-id-card"></i> Contact Us</a>
+                </li>
+
+                <li role="presentation">
+                    <a href="{% url 'order_cart' %}">
+                        <i class="fa fa-shopping-cart"></i>&ensp; My Cart
+                        <span class="badge">
+                            {% if not request.session.items_total %}
+                                0
+                            {% else %}
+                                {{request.session.items_total}}
+                            {% endif %}
+                        </span>
+                    </a>
+                </li>
+
+                <li class="last">
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-info navbar-btn navbar-right" data-toggle="dropdown" aria-expanded="false" href="#">
+                            {{user.username}}&nbsp; <i class="fa fa-chevron-circle-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation">
+                                <a href="{% url 'user_profile' %}">
+                                    <i class="fa fa-user"></i>&ensp; My profile
+                                </a>
+                            </li>
+
+                            <!-- <li role="presentation">
+                                <a href="{% url 'order_cart' %}">
+                                    <i class="fa fa-shopping-cart"></i>&ensp; My Cart
+                                    <span class="badge">
+                                        {% if not request.session.items_total %}
+                                            0
+                                        {% else %}
+                                            {{request.session.items_total}}
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li> -->
+
+                            <li role="presentation">
+                                <a href="{% url 'order_list' %}">
+                                    <i class="fa fa-cart-arrow-down"></i>&ensp; My Orders
+                                </a>
+                            </li>
+
+                            <li role="presentation">
+                                <a href="{% url 'wishlist' %}">
+                                    <i class="fa fa-heart"></i>&ensp; My wishlist
+                                </a>
+                            </li>
+                            
+                            <!-- <li role="presentation">
+                                <a href="#">
+                                    <i class="fa fa-credit-card"></i>&ensp;vouchers
+                                </a>
+                            </li> -->
+                            
+                            <li role="presentation">
+                                <a href="{% url 'logout' %}">
+                                    <i class="fa fa-lock"></i>&ensp; Logout
+                                </a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-info navbar-btn navbar-right">
+                            <i class="fa fa-unlock-alt"></i> Login
+                        </a>
+                    {% endif %}
+                </li>
+
+                <li>
+                    <form class="navbar-form navbar-left" role="search" method="GET" action="/search_results" style="padding-left: 300px;">
+                        <div class="form-group">
+                            <i class="fa fa-search"></i>
+                            <input type="text" style="width: 215px;" class="form-control" placeholder="Search food or restaurant" name="query" id="query" style="width: auto; border-color: yellowgreen;">
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Search</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% for rest in rests %}
+    <div class="fb-profile-block">
+        <div class="top">
+            <div class="img-container">
+                <a href="{{rest.Cover_Photo.url}}" data-lightbox="cover" data-title="{{rest.Restaurant_name}} Cover Photo">
+                    <img src="{{ rest.Cover_Photo.url }}" alt="">
+                </a>
+            </div>
+        </div>
+
+        <div class="profile-img">
+            <a href="{{rest.Logo.url}}" data-lightbox="logo" data-title="{{rest.Restaurant_name}} Logo">
+                <img src="{{rest.Logo.url}}" alt="">        
+            </a>
+        </div>     
+        
+        <div class="fb-profile-block-menu"></div>
+    </div>
+    <br><br>      
+
+    <div class="rest-name" style="font-size: 40px; font-weight:bolder">{{rest.Restaurant_name}}</div>
+    <div class="rest-bio" style="font-size: 16px;">{{rest.Bio}}</div>
+    {% endfor %}     
+    <br>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'menu')" id="defaultOpen">Our Menu</button>
+        <button class="tablinks" onclick="openTab(event, 'about')">About Us</button>
+        <button class="tablinks" onclick="openTab(event, 'rate')">Reviews</button>
+    </div>
+
+    <div id="menu" class="tabcontent">
+        <div class="card-group">
+            {% if trend %}
+                <h1 style="text-align: center;">Trending items</h1>
+            {% endif %} 
+            
+            <div class="card-content">
+            {% for item in items %}
+            <div class="card">
+                <a href="{{item.Image.url}}" data-lightbox="menu" data-title="{{item.Item_name}}">
+                    <img src="{{item.Image.url}}" alt="">
+                </a>
+        
+                <div id="textblock">
+                    <h3 class="card-title">
+                        <a href="{% url 'item_details' item.id %}">{{item.Item_name}}</a>
+                        <span style="color: #ff7720; float:right"> ৳{{item.Price}} </span>
+                    </h3>
+
+                    {% if item.get_average_ratings is not False %}
+                        <i class="fa fa-star"></i>
+                        <span style="color: rgb(111, 0, 255); font-size:12px">{{item.get_average_ratings}}</span>
+                        <i class='fa fa-comment' style="margin-left: 20px;"></i>
+                        <span style="color: rgb(111, 0, 255); font-size:12px">{{item.comment_count}}</span>
+                    {% else %}
+                        <i class='fa fa-comment'></i>
+                        <span style="color: rgb(111, 0, 255); font-size:12px">{{item.comment_count}}</span>
+                    {% endif %}
+
+                    <br><br><input type="checkbox" class="popupCheckbox" id="popup_{{item.id}}">
+
+                    {% if user.is_authenticated %}
+                    <label for="popup_{{item.id}}" class="cart_btn">
+                        <div class="btn btn-primary btn-lg" style="width: 360px; font-size: 16px">
+                            <i class="fa fa-shopping-cart"></i> Add to cart
+                        </div>
+                    </label>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg" style="width: 360px; font-size: 16px">
+                            <i class="fa fa-shopping-cart"></i> Add to cart
+                        </a>
+                    {% endif %}
+
+                    <div class="cart-content" style="text-align: center;">
+                            <div class="pop-header">
+                                <h2>Add item to cart</h2>
+                                <label for="popup_{{item.id}}" class="fa fa-times"></label>
+                            </div>
+                            
+                            <form method="GET" action="{% url 'add_to_order_cart' item.id %}">
+                                <div class="numbers-row">
+                                    <label for="name">Select Quantity</label>
+                                    <input type="number" name="qty" id="qty" value="1" min="1">
+                                </div>
+                            
+                                <br>
+                                <textarea name="comment" placeholder="Add any requirements, e.g, no mayo."></textarea>
+                                
+                                <div class="line"></div>
+                                <button type="submit" class="btn btn-danger btn-sm">Confirm</button>
+                                <label for="popup_{{item.id}}" class="close-btn">Cancel</label>
+                            </form>
+                    </div>
+                    
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'add_to_wishlist' item.id %}">
+                            <button class="btn btn-success" type="button">
+                                <i class="fa fa-heart"></i> Add to wishlist
+                            </button>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}">
+                            <button class="btn btn-success" type="button">
+                                <i class="fa fa-heart"></i> Add to wishlist
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        
+        {% if avail and trend %}
+            <h1 class="menuhead">Our Others Menus</h1>
+        {% elif avail %}
+            <h1 class="menuhead">Our Menus</h1>
+        {% elif trend %}
+            <h1 class="menuhead">Currently there no other menu is available.</h1>
+        {% else %}
+            <h1 class="menuhead">Currently we have no menu available.</h1>
+        {% endif %}
+        
+        <div class="menu">
+            {% for menuitem in menu %}
+            <div class="single-menu">
+                <a href="{{menuitem.Image.url}}" data-lightbox="menu" data-title="{{menuitem.Item_name}}">
+                    <img src="{{menuitem.Image.url}}" alt="">
+                </a>
+         
+                <div class="menu-content">
+                    <h4><a href="{% url 'item_details' menuitem.id %}">{{menuitem.Item_name}}</a> 
+                    &emsp;<span>৳{{menuitem.Price}}</span></h4>
+                    
+                    {% if menuitem.get_average_ratings is not False %}
+                        <i class="fa fa-star"></i>
+                        <span style="color: rgb(111, 0, 255); font-size:12px">{{menuitem.get_average_ratings}}</span>
+                        <i class='fa fa-comment' style="margin-left: 20px;"></i>
+                        <span style="color: rgb(111, 0, 255); font-size:12px">{{menuitem.comment_count}}</span>
+                    {% else %}
+                        <i class="fa fa-comment"></i>
+                        <span style="color: rgb(111, 0, 255); font-size:12px">{{menuitem.comment_count}}</span>
+                    {% endif %}
+
+                    <br><br><input type="checkbox" class="popupCheckbox" id="popup_{{menuitem.id}}">
+
+                    {% if user.is_authenticated %}
+                    <label for="popup_{{menuitem.id}}" class="cart_btn">
+                        <div class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</div>
+                    </label>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                    {% endif %}
+
+                    <div class="cart-content" style="text-align: center;">
+                            <div class="pop-header">
+                                <h2>Add item to cart</h2>
+                                <label for="popup_{{menuitem.id}}" class="fa fa-times"></label>
+                            </div>
+                            
+                            <form method="GET" action="{% url 'add_to_order_cart' menuitem.id %}">
+                                <div class="numbers-row">
+                                    <label for="name">Select Quantity</label>
+                                    <input type="number" name="qty" id="qty" value="1" min="1">
+                                </div>
+                            
+                                <br>
+                                <textarea name="comment" placeholder="Add any requirements, e.g, no mayo."></textarea>
+                                
+                                <div class="line"></div>
+                                <button type="submit" class="btn btn-danger btn-sm">Confirm</button>
+                                <label for="popup_{{menuitem.id}}" class="close-btn">Cancel</label>
+                            </form>
+                    </div>
+                    &ensp;
+
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'add_to_wishlist' menuitem.id %}">
+                            <button class="btn btn-success" style="margin-left: 20px;">
+                                <i class="fa fa-heart"></i> Add to wishlist
+                            </button>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}">
+                            <button class="btn btn-success" style="margin-left: 20px;">
+                                <i class="fa fa-heart"></i> Add to wishlist
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% for rest in rests %}
+        <div id="about" class="tabcontent">
+            <div class="left-part">
+                <h3>{{rest.Restaurant_name}}</h3>
+                <h5>{{rest.Food_type}}</h5>
+                <ul>
+                    <li>
+                        <span>🕒</span><br><br>
+                        {{rest.Opens}}
+                    </li>
+
+                    <li>
+                        <i class="fa fa-map-marker"></i><br><br>
+                        {{rest.Location}}
+                    </li>
+                
+                    <li>
+                        <span>⭐</span><br><br>
+                        {{avg}} out of 5.0<br>{{count}} reviews
+                    </li>
+                </ul>
+                <p>{{rest.Description}}</p>
+            </div>
+
+            <div class="right-part">
+                <h2>Contact Us</h2>
+                <i class="fa fa-phone"></i>{{rest.Contact_number}}<br>
+                <i class="fa fa-envelope"></i><br>
+            </div>
+
+            <div class="map">
+                <div class="emsp"></div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for rest in rests %}
+        <div id="rate" class="tabcontent">
+            <div class="left-part">
+                <h1>Reviews... <span class="badge badge-info">{{rest.reviews.all.count}}</span></h1>
+
+                {% if not rest.reviews.all %}
+                    <div style="margin-top: 60px; font-size:20px;color:navy">There is no reviews yet.</div>
+                {% else %}
+                    {% for r in rest.reviews.all %}
+                        <div class="single-comment">
+                            <img src="{{r.user.userprofile.Profile_picture.url}}">
+                            <span class="username">{{r.user.username}}</span><br>
+
+                            <div class="info">
+                                {% if r.stars == 1 %}
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                {% elif r.stars == 2 %}
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                {% elif r.stars == 3 %}
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                {% elif r.stars == 4 %}
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #cfd8dc;"></span>
+                                {% elif r.stars == 5 %}
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                    <span class="fa fa-star fa-1x" style="color: #fbc02d;"></span>
+                                {% endif %}
+
+                                ({{r.stars}}/5)<br>
+                                {{r.date_added}}
+                            </div>
+
+                            <div class="text">{{r.text}}</div>
+
+                            {% if user == r.user %}
+                                <a href="{% url 'delete_review' r.id %}" class="btn btn-danger">Delete</a>
+                            {% endif %}
+                                
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="right-part">
+                <form class="form" action="{% url 'review' rest.id %}" method="POST">
+                    {% csrf_token %}
+                    <h4>Rate Your Experience</h4>
+                    <div> 
+                        <span class="fa fa-star fa-1x review" data-index="1"></span>
+                        <span class="fa fa-star fa-1x review" data-index="2"></span>
+                        <span class="fa fa-star fa-1x review" data-index="3"></span>
+                        <span class="fa fa-star fa-1x review" data-index="4"></span>
+                        <span class="fa fa-star fa-1x review" data-index="5"></span>
+                        <input type="hidden" name="star" id="rating">
+                    </div>
+
+                    <p>Leave a comment (optional)</p>
+                    <textarea name="text" placeholder="Leave a comment..." style="margin: 0;"></textarea>
+
+                    <div class="form-group mx-2" style="margin-top: 20px;">
+                        <input type="submit" class="btn btn-success formPost" name="post_review" value="Post" style="width: 100px; font-variant:small-caps">
+                    </div>
+                </form>
+
+                <h4 style="margin: 35px 0;">Rattings</h4>
+                <table class="row mx-auto" style="margin-left: 0px; line-height:normal; margin-bottom:35px">
+                    <tr>
+                        <td class="rating-label">Excellent</td>
+                        <td class="progress skill-bar">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="{{per_five}}" aria-valuemin="0" aria-valuemax="100">
+                                <span class="skill">
+                                    <i class="val"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-right">{{five}}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="empsp" style="height: 10px;"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="rating-label">Good</td>
+                        <td class="progress skill-bar">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{per_four}}" aria-valuemin="0" aria-valuemax="100">
+                                <span class="skill">
+                                    <i class="val"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-right">{{four}}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="empsp" style="height: 10px;"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="rating-label">Average</td>
+                        <td class="progress skill-bar">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{per_three}}" aria-valuemin="0" aria-valuemax="100">
+                                <span class="skill">
+                                    <i class="val"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-right">{{three}}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="empsp" style="height: 10px;"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rating-label">Poor</td>
+                        <td class="progress skill-bar">
+                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{per_two}}" aria-valuemin="0" aria-valuemax="100">
+                                <span class="skill">
+                                    <i class="val"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-right">{{two}}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="empsp" style="height: 10px;"></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="rating-label">Terrible</td>
+                        <td class="progress skill-bar">
+                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{per_one}}" aria-valuemin="0" aria-valuemax="100">
+                                <span class="skill">
+                                    <i class="val"></i>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="text-right">{{one}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+
+    <footer style="clear: both;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 footer-navigation">
+                    <h3><a href="#">TREAT Me</a></h3>
+                    <p class="links"><a href="#">Resturants</a><strong> · </strong><a href="#">Services</a><strong> · </strong><a href="#">Order </a><strong> </strong></p>
+                    <p class="company-name">TREAT Me @2020</p>
+                </div>
+                <div class="col-md-4 col-sm-6 footer-contacts">
+                    <div><span class="fa fa-map-marker footer-contacts-icon"> </span>
+                        <p><span class="new-line-span">Gollamari Khulna, Bangladesh</span></p>
+                    </div>
+                    <div><i class="fa fa-phone footer-contacts-icon"></i>
+                        <p class="footer-center-info email text-left"> 123456789</p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">support@company.com</a></p>
+                    </div>
+                    <div><i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="#" target="_blank">AtoZ@gmail.com</a></p>
+                    </div>
+                    
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+                <div class="col-md-4 footer-about">
+                    <h4>About the company</h4>
+                    <p> Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet. </p>
+                    <div class="social-links social-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-github"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/incrementing.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+    
+    <script>
+        setTimeout(function(){
+            if ($('#msg').length > 0)
+            {
+                $('#msg').remove();
+            }
+        }, 2000)
+    </script>
+
+    <script>
+        function openTab(evt, tabName)
+        {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultOpen").click();
+    </script>
+
+    <script>
+        $(document).ready(function()
+        {
+            $('.progress .progress-bar').css("width", function() {
+                    return $(this).attr("aria-valuenow") + "%";
+            })
+        });
+    </script>
+</body>
+
+</html>

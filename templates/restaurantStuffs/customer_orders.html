@@ -1,0 +1,334 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{rest.Restaurant_name}}&ensp;|&ensp;Customer Orders</title>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,700">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/ionicons.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/batch.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Login-Form-Dark.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/order.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/outline-buttons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/popup_order.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Pretty-Footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Registration-Form-with-Photo.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/side-nav.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    
+    <style>
+        .tr
+        {
+            float: left;
+        }
+    </style>
+</head>
+
+<body class="boby" id="modal">
+    {% for message in messages %}
+        {% if 'accept' in message.tags %}
+            <div class="msg" id="msg" style="margin-top: 50px; position: sticky; text-align: center; height: 96px">
+                <div class="alert alert-success">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% elif 'reject' in message.tags %}
+            <div class="msg" id="msg" style="margin-top: 50px; position: sticky; text-align: center; height: 96px">
+                <div class="alert alert-warning">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% elif 'delete' in message.tags %}
+            <div class="msg" id="msg" style="margin-top: 50px; position: sticky; text-align: center; height: 96px">
+                <div class="alert alert-danger">
+                    <h3> {{ message }} </h3>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header" style="margin-left: -150px;">
+                <a class="navbar-brand" href="{% url 'res_profile' %}">
+                    <img src="{{rest.Logo.url}}" id="logo">
+                    <strong style="font-size: 25px; color:teal">{{rest.Restaurant_name}}</strong>
+                </a>
+                
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav navbar-left" style="margin-left: 280px;">                    
+                    <li class="last">
+                        {% if user.is_authenticated %}
+                            <span style="line-height: 60px; color:springgreen;font-weight:bold">Logged In as &nbsp;</span>
+                            <span class="btn btn-info navbar-btn navbar-right" data-toggle="dropdown" aria-expanded="false" href="#">
+                                {{user.username}}
+                            </span>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-info navbar-btn navbar-right">
+                                <i class="fa fa-unlock-alt"></i> Login
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <input type="checkbox" id="check">
+    <label for="check">
+        <i class="fa fa-bars" id="btn"></i>
+        <i class="fa fa-times" id="cancel"></i>
+    </label>
+
+    <div class="sidebar">
+        <header>
+            <img src="{% static 'img/logo.png' %}"> Treat Me
+        </header>
+
+        <ul>
+            <li><a href="{% url 'Homepage' %}"><i class="fa fa-qrcode"></i> Dashboard</a></li>
+            <li><a href="{% url 'user_staff_profile' %}"><i class="fa fa-user"></i> User Profile</a></li>
+            <li><a href="{% url 'res_profile' %}"><i>&#127860;</i> Restaurant overview</a></li>
+            
+            <li>
+                <a href="{% url 'cus_orders' %}">
+                    <i class="fa fa-cart-arrow-down"></i> Orders
+                    <span class="badge badge-info" style="padding: 7px;"> {{order_count}}</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="{% url 'myitems' %}">
+                    <i class="fa fa-clipboard"></i> My Items
+                    <span class="badge badge-info" style="padding: 7px;"> {{item_count}}</span>
+                </a>
+            </li>
+
+            <li><a href="{% url 'contact_us_staffview' %}"><i class="fa fa-envelope"></i> Contact Us</a></li>
+            <li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Logout</a></li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <div class="col-sm-9 col-sm-offset-2 order-table" style="margin-top: 80px;">
+            <div class="order-timeline">
+                Showing orders from <b style="color: blueviolet;">{{timeline}}</b>
+                <span class="query">
+                    <form method="POST" action="{% url 'cus_orders' %}">
+                        {% csrf_token %}
+                        <select id="month" name="month">
+                            <option value="none">(Select month)</option>
+                            <option value="January">Januaray</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+
+                        <input type="text" name="year" placeholder="Enter year (default: {{c_year}})">
+                        <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                    </form>
+                </span>
+
+                <div class="quick-filter">
+                    <span class="time-filter">
+                        Quick view&ensp;
+                        <a class="btn btn-outline-danger" href="{% url 'cus_orders_all' %}">All</a>
+                        <a class="btn btn-outline-dark" href="{% url 'cus_orders_today' %}">Today</a>
+                        <a class="btn btn-outline-primary" href="{% url 'cus_orders_month' %}">This month</a>
+                        <a class="btn btn-outline-secondary" href="{% url 'cus_orders_year' %}">This year</a>
+                    </span>
+
+                    <span class="type-filter">
+                        Order status&ensp;
+                        <a class="btn btn-outline-info" href="{% url 'cus_orders_new' %}">New</a>
+                        <a class="btn btn-outline-success" href="{% url 'cus_orders_started' %}">Started</a>
+                        <a class="btn btn-outline-danger" href="{% url 'cus_orders_abandoned' %}">Abandoned</a>
+                        <a class="btn btn-outline-warning" href="{% url 'cus_orders_finished' %}">Finished</a>
+                    </span>
+                </div>
+            </div>
+
+            <div class="line"></div>
+            <h1>Order History <span class="badge badge-warning">{{count}}</span></h1>
+            
+            {% if not orders %}
+                <h3 align="center" style="color: blueviolet;">There are no orders.</h3>
+            {% else %}
+                <table class="table">
+                    <thead id="blur">
+                        <td>Id</td>
+                        <td>Order Id</td>
+                        <td>Ordered On</td>
+                        <td>Total Bill</td>
+                        <td>See Details</td>
+                    </thead>
+
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{order.id}}</td>
+                            <td>{{order.order_id}}</td>
+                            <td>{{order.timestamp}}</td>
+                            <td>{{order.final_total}}</td>
+                            <td>
+                                <input type="checkbox" id="order_{{order.id}}" class="orderPopup">
+
+                                
+                                
+                                <label for="order_{{order.id}}" class="btn btn-primary view-btn" id="open">
+                                    <i class="fa fa-eye"></i> Preview
+                                </label>
+
+                                {% if order.status == 'Started' %}
+                                    <span class="badge badge-success">{{order.status}}</span>
+                                {% elif order.status == 'Abandoned' %}
+                                    <span class="badge badge-danger">{{order.status}}</span>
+                                {% elif order.status == 'Finished' %}
+                                    <span class="badge badge-warning">{{order.status}}</span>
+                                {% elif order.viewed == False %}
+                                    <span class="badge badge-dark">New</span>
+                                {% endif %}
+
+                                {% if order.transaction_id == 'ABCDEFGHIJKL' %}
+                                    <span class="badge badge-info tr">Cash On Delivery</span>
+                                {% else %}
+                                    <span class="badge badge-info tr">Paid</span>
+                                {% endif %}
+
+                                <div class="preview" id="view">
+                                    <div class="view-top">
+                                        <h2 style="margin: 0; padding: 10px">Order no. #{{order.order_id}}</h2>
+                                        <h5 style="margin: 0; padding: 10px">{{order.timestamp}}</h5>
+                                        <a style="text-decoration: none;" href="{% url 'view_orders' order.id %}" class="fa fa-times"></a>
+                                    </div>
+                                    
+                                    <div class="line"></div>
+
+                                    <div class="user">
+                                        <p><b>Ordered By: </b>{{order.user.username}}</p>
+
+                                        {% if not order.transaction_id == 'ABCDEFGHIJKL' %}
+                                            <p><b>Transaction Id: </b>{{order.transaction_id}}</p>
+                                        {% endif %}
+
+                                        <p><b>User Email: </b>{{order.user.email}}</p>
+                                        <p><b>User Phone: </b>{{order.address.phone}}</p>
+                                        <div class="line2"></div>
+                                    </div>
+
+                                    <div class="items">
+                                        <div class="wrapper">
+                                            <div class="box box-head">Item name</div>
+                                            <div class="box box-head">Quantity</div>
+                                            <div class="box box-head">Comments</div>
+                                            <div class="box box-head">Price</div>
+
+                                            {% for item in order.cart.cartitem_set.all  %}
+                                                <div class="box">{{ item.product.Item_name }}</div>
+                                                <div class="box">{{ item.quantity }}</div>
+                                                <div class="box">{{ item.comment }}</div>
+                                                <div class="box">{{ item.line_total }}</div>
+                                            {% endfor %}
+
+                                            <div class="box box-span span1"></div>
+                                            <div>Total</div>
+                                            <div>{{ order.cart.sub_total }}</div>
+
+                                            <div class="box box-span span2"></div>
+                                            <div>Discount</div>
+                                            <div>{{ order.cart.tax_total }}</div>
+
+                                            <div class="box box-span span3"></div>
+                                            <div>Final</div>
+                                            <div>{{ order.cart.final_total }}</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="line3"></div>
+
+                                    <div class="address">
+                                        <h3>Delivery Address</h3>
+                                        
+                                        {% if order.address %}
+                                            {{order.address.address}},
+                                            {% if not order.address.address2 == None %}
+                                                {{order.address.address2}},
+                                            {% endif %}
+                                            
+                                            {{order.address.city}},
+                                            {{order.address.state}}-
+                                            {{order.address.zipcode}},
+                                            {{order.address.country}}
+                                        {% endif %}
+                                        <div class="emsp" style="height: 30px"></div>
+                                    </div>
+
+                                    <div class="line"></div>
+
+                                    <div class="btn-part">
+                                        <a href="{% url 'acc_orders' order.id %}" class="btn btn-success">Accept Order</a>
+                                        <a href="{% url 'rej_orders' order.id %}" class="btn btn-danger">Reject Order</a>
+                                        <a href="{% url 'fin_orders' order.id %}" class="btn btn-info">Delivered</a>
+                                        <a href="{% url 'view_orders' order.id %}" class="btn btn-warning">Close</a>
+                                    </div>
+
+                                    <div class="emsp" style="height: 10px"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <div class="line"></div>
+                <div class="total">Income Total: <span>৳{{income}}</span></div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox-plus-jquery.min.js"></script>
+    <script>
+        setTimeout(function(){
+            if ($('#msg').length > 0)
+            {
+                $('#msg').remove();
+            }
+        }, 3000)
+    </script>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const open = document.getElementById('open');
+        const view = document.getElementById('blur');
+    </script>
+</body>
+
+</html>
